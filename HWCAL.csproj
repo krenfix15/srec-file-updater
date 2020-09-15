@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CRC16.cs" />
-    <Compile Include="HwCal.cs" />
     <Compile Include="Hwcal_chans.cs" />
     <Compile Include="HWCalForm.cs">
       <SubType>Form</SubType>

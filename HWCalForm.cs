@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms;
-using System.IO;
+﻿using System.Windows.Forms;
 using System;
-using System.Linq;
+using System.Drawing;
 
 namespace HWCAL
 {
     public partial class HWCalForm : Form
     {
+        const int CELL_VALUE_LENGHT = 8;
         SrecFile SrecFile;
         HwCal HwCalStruct;
 
@@ -21,11 +20,27 @@ namespace HWCAL
         public HWCalForm()
         {
             InitializeComponent();
+            this.Width = 650;
 
             dgvHWCAL.Columns[0].ReadOnly = true;
             dgvHWCAL.Columns[3].ReadOnly = true;
+
+            dgvHWCAL.Columns[0].Width = 50;
+            dgvHWCAL.Columns[1].Width = 100;
+            dgvHWCAL.Columns[2].Width = 104;
             dgvHWCAL.Columns[3].Width = 240;
-            this.Width = 600;
+
+            dgvHWCAL.BackgroundColor = Color.White;
+            dgvHWCAL.RowsDefaultCellStyle.BackColor = Color.White;
+            dgvHWCAL.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
+            dgvHWCAL.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvHWCAL.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
+
+            dgvHWCAL.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dgvHWCAL.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dgvHWCAL.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            dgvHWCAL.EnableHeadersVisualStyles = false; 
         }
 
         /// <summary>
@@ -33,14 +48,14 @@ namespace HWCAL
         /// </summary>
         OpenFileDialog OpenSRECFile = new OpenFileDialog()
         {
-            InitialDirectory = @"Y:\",
+            InitialDirectory = @"C:\",
             Title = "Browse SREC Files",
 
             CheckFileExists = true,
             CheckPathExists = true,
 
             DefaultExt = "txt",
-            Filter = "srec files (*.srec)|*.srec",
+            Filter = "srec files (*.srec;*.s19;*.sx)|*.srec;*.s19;*.sx",
             FilterIndex = 2,
             RestoreDirectory = true,
 
@@ -77,31 +92,11 @@ namespace HWCAL
         /// <param name="hwcal_Chan"></param>
         private void AddHwCalCh_InDGV(hwcal_chan hwcal_Chan)
         {
-
-            float gain = ConvertUint32ToFloat(hwcal_Chan.gain);
-            float offset = ConvertUint32ToFloat(hwcal_Chan.offs);
-
-            dgvHWCAL.Rows.Add(dgvHWCAL.Rows.Count, gain, offset, hwcal_Chan.ChannelName);
+            UInt32 gain_reverse = HwCal.BigEndianToLittleEndian(hwcal_Chan.gain);
+            UInt32 offset_reverse = HwCal.BigEndianToLittleEndian(hwcal_Chan.offs);
+            dgvHWCAL.Rows.Add(dgvHWCAL.Rows.Count, gain_reverse.ToString("X8"), offset_reverse.ToString("X8"), hwcal_Chan.ChannelName);
         }
 
-        /// <summary>
-        /// Convert one UInt32 value in float value
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        private float ConvertUint32ToFloat(UInt32 value)
-        {
-            float ret_val = 0x0;
-            byte[] arr = new byte[4];
-            arr = BitConverter.GetBytes(value);
-
-            if (BitConverter.IsLittleEndian)
-            {
-                arr = arr.Reverse().ToArray();
-            }
-            ret_val = BitConverter.ToSingle(arr, 0);
-            return ret_val;
-        }
 
         /// <summary>
         /// Event called by the "Load Srec File" option of the ToolStripMenu
@@ -127,17 +122,17 @@ namespace HWCAL
             if (SrecFileWasAdded)
             {
                 string filepath = OpenSRECFile.FileName;
-
+                filepath = filepath.Replace(".srec", "_Updated.srec");
                 HwCalStruct.UpdateHwCalValuesFromDvg(dgvHWCAL);
                 SrecFile = HwCalStruct.ConvertHwCalToSrec();
 
-                SrecFile.WriteSrecToFile(filepath.Replace(".srec", "_Updated.srec"));
-
-                MessageBox.Show("The output file was saved in the same folder as the input file!", filepath);
+                SrecFile.WriteSrecToFile(filepath);
+                string message = String.Format("The output file was saved in the same folder as the input file!\n{0}", filepath);
+                MessageBox.Show(message, "Write Updated File - Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("Load a SREC file!", "Error");
+                MessageBox.Show("First step: Load a SREC file.", "Write Updated File - Error", MessageBoxButtons.OK , MessageBoxIcon.Error);
             }
         }
 
@@ -148,22 +143,45 @@ namespace HWCAL
         /// <param name="e"></param>
         private void InfoToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            MessageBox.Show(string.Format("© Powertrace SRL\nVersion {0}.{1}.{2}", MajorVersion, MinorVersion, PatchVersion), "Hw Calibration Updater");
+            MessageBox.Show(string.Format("© Powertrace SRL\nVersion {0}.{1}.{2}", MajorVersion, MinorVersion, PatchVersion), "Hw Calibration Updater", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         /// <summary>
-        /// Event handler to verify if the inserted data in DGV cells are ok
+        /// Event handler for cell editing
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DgvHWCAL_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        private void dgvHWCAL_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            //int row = e.RowIndex;
-            //int collumn = e.ColumnIndex;
-            //if ((e != null) && (row < dgvHWCAL.Rows.Count) &&(collumn < dgvHWCAL.Rows[0].Cells.Count))
-            //{
-            //    string cellValue = dgvHWCAL.Rows[row].Cells[collumn].Value.ToString();
-            //}
+            dgvHWCAL.CurrentCell.Style.BackColor = Color.White;
+            menuStrip1.Items[1].Enabled = true;
+            dgvHWCAL.CurrentCell.Style.BackColor = Color.LightYellow;
+
+            if (dgvHWCAL[e.ColumnIndex, e.RowIndex].Value != null)
+            {
+                if ((OnlyHexInString(dgvHWCAL[e.ColumnIndex, e.RowIndex].Value.ToString()) == false) ||
+                    (dgvHWCAL[e.ColumnIndex, e.RowIndex].Value.ToString().Length > CELL_VALUE_LENGHT) ||
+                    (dgvHWCAL[e.ColumnIndex, e.RowIndex].Value.ToString() == string.Empty))
+                {
+                    dgvHWCAL.CurrentCell.Style.BackColor = Color.Red;
+                    menuStrip1.Items[1].Enabled = false;
+                    MessageBox.Show("Cell value is not in HEX format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Cell value is not in HEX format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dgvHWCAL.CurrentCell.Style.BackColor = Color.Red;
+                menuStrip1.Items[1].Enabled = false;
+            }      
+        }
+
+        /// <summary>
+        /// Regular expressions for HEX values
+        /// </summary>
+        public bool OnlyHexInString(string test)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(test, @"\A\b[0-9a-fA-F]+\b\Z");
         }
     }
 }

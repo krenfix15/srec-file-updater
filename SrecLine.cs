@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 
 namespace HWCAL
 {
@@ -7,7 +6,6 @@ namespace HWCAL
     {
         /* Address length in bytes */
         const int S3ADDRESS_LENGHT = 4;
-
         /* Content of one SREC line */
         string SrecType;
         byte ByteCount;
@@ -23,10 +21,8 @@ namespace HWCAL
         {
             /* Get the SREC type - usualy must be S3 */
             SrecType = SrecFileLine.Substring(0, 2);
-
             /* Get the bytes number of the srec line - usually 37 bytes (4 addrss, 32 data, 1 checksum) */
             ByteCount = Convert.ToByte(SrecFileLine.Substring(2, 2), 16);
-
             /* Extract the address of the Srec line */
             string dataLine = SrecFileLine.Substring(4);
             Address = new byte[S3ADDRESS_LENGHT];
