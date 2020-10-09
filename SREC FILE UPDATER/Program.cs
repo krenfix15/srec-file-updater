@@ -16,7 +16,7 @@ namespace HWCAL
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new HWCalForm());
+            Application.Run(new SREC_UPDATER());
         }
     }
 }

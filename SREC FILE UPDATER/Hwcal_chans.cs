@@ -9,20 +9,20 @@ namespace HWCAL
     /// </summary>
     public enum HWCAL_CHANS_ENUM
     {
-        Hwcal_chan_PORT0_idx,           /* 0U */
-        Hwcal_chan_I_A__STBY_idx,       /* 1U */
-        Hwcal_chan_I_A__U_idx,          /* 2U */
-        Hwcal_chan_PORT0_idx,           /* 3U */
-        Hwcal_chan_I_A_CW_idx,          /* 4U */
-        Hwcal_chan_I_A_idx,             /* 5U */
-        Hwcal_chan_I_idx,               /* 6U */
-        Hwcal_chan_PORT0_idx,           /* 7U */
-        Hwcal_chan_PORT1_idx,           /* 8U */
-        Hwcal_chan_I_A_TLF_idx,         /* 9U */
-        Hwcal_chan_I_A_V_idx,           /* 10U */
-        Hwcal_chan_PORT1_idx,           /* 11U */
-        Hwcal_chan_I_A_CW_idx,          /* 12U */
-        Hwcal_chan_I_A_GMR_COS,         /* 13U */
+        Hwcal_chan_PORT0_idx,            /* 0U */
+        Hwcal_chan_I_A__STBY_idx,        /* 1U */
+        Hwcal_chan_I_A__U_idx,           /* 2U */
+        Hwcal_chan_PORT0X_idx,           /* 3U */
+        Hwcal_chan_I_A_CW_idx,           /* 4U */
+        Hwcal_chan_I_A_idx,              /* 5U */
+        Hwcal_chan_I_idx,                /* 6U */
+        Hwcal_chan_PORT0XX_idx,          /* 7U */
+        Hwcal_chan_PORT1_idx,            /* 8U */
+        Hwcal_chan_I_A_TLF_idx,          /* 9U */
+        Hwcal_chan_I_A_V_idx,            /* 10U */
+        Hwcal_chan_PORT1X_idx,           /* 11U */
+        Hwcal_chan_I_A_CWX_idx,          /* 12U */
+        Hwcal_chan_I_A_GMR_COS,          /* 13U */
         Hwcal_chan_I_A_CTRL_REV_IN_idx,       /* 14U */
         Hwcal_chan_PORT3_idx,                 /* 15U */
         Hwcal_chan_PORT2_CHAN0,               /* 16U */
@@ -37,12 +37,12 @@ namespace HWCAL
         Hwcal_chan_I_A_TLF_5V_idx,             /* 25U */
         Hwcal_chan_I_A_UZK_idx,                /* 26U */
         Hwcal_chan_I_A_INT_idx,                /* 27U */
-        Hwcal_chan_I_A_CW_idx,                 /* 28U */
+        Hwcal_chan_I_AX_CW_idx,                /* 28U */
         Hwcal_chan_I_A_BRD_TEMP1_idx,             /* 29U */
         Hwcal_chan_I_A_PSA_2_idx,                 /* 30U */
         Hwcal_chan_I_A_XM_DIAP_idx,               /* 31U */
         Hwcal_chan_I_A_AIN_idx,                   /* 32U */
-        Hwcal_chan_I_A_idx,                       /* 33U */
+        Hwcal_chan_IX_A_idx,                      /* 33U */
         Hwcal_chan_I_A_INV_TEMP_U_idx,            /* 34U */
         Hwcal_chan_AdcMcalDummy4_3_idx,           /* 35U */
         Hwcal_chan_PORT4_CHAN4,               /* 36U */
@@ -77,7 +77,7 @@ namespace HWCAL
         Hwcal_chan_I_A_U_3V3_HVM_idx,          /* 65U */
         Hwcal_chan_I_A_U_5V_idx,               /* 66U */
         Hwcal_chan_PORT8_CH3_idx,              /* 67U */
-        Hwcal_chan_I_A_UZK_idx,                /* 68U */
+        Hwcal_chan_I_A_UZKX_idx,               /* 68U */
         Hwcal_chan_I_A_U_16V_HVM_idx,          /* 69U */
         Hwcal_chan_I_A_T_EXC_idx,              /* 70U */
         Hwcal_chan_I_A_T_HVSUP_idx,            /* 71U */
