@@ -172,7 +172,7 @@ namespace HWCAL
             MessageBox.Show(string.Format("1. Click on 'Load Srec File' and select the .srec/.s19/.sx file containing the hardware calibrations.\n\n" +
                                           "2. Update Gain and Offset for the desired channels, values MUST be in hexadecimal format.\n\n" +
                                           "3. Click on 'Write Updated File'. ​A new file having the _Updated suffix will be saved in the same folder as the original file and can be flashed on the ECU.\n\n" +
-                                          "Version 1.0.0 Initial version\nVersion 1.0.1 Resolved handling of .s19 and .sx extensions"), "Hw Calibration Updater", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                          "Version 1.0.0 Initial version\nVersion 1.0.1 Resolved handling of .s19 and .sx extensions"), "SREC File Updater", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         /// <summary>
