@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
 using System;
 using System.Drawing;
+using System.IO;
 
 namespace HWCAL
 {
@@ -13,7 +14,7 @@ namespace HWCAL
         /* Version of the application */
         int MajorVersion = 1;
         int MinorVersion = 0;
-        int PatchVersion = 0;
+        int PatchVersion = 1;
 
         bool SrecFileWasAdded = false;
 
@@ -121,8 +122,23 @@ namespace HWCAL
         {
             if (SrecFileWasAdded)
             {
+                
                 string filepath = OpenSRECFile.FileName;
-                filepath = filepath.Replace(".srec", "_Updated.srec");
+                string extension = Path.GetExtension(filepath);
+
+                if(extension == ".srec")
+                {
+                    filepath = filepath.Replace(".srec", "_Updated.srec");
+                }
+                if(extension == ".s19")
+                {
+                    filepath = filepath.Replace(".s19", "_Updated.s19");
+                }
+                if(extension == ".sx")
+                {
+                    filepath = filepath.Replace(".sx", "_Updated.sx");
+                }
+                
                 HwCalStruct.UpdateHwCalValuesFromDvg(dgvHWCAL);
                 SrecFile = HwCalStruct.ConvertHwCalToSrec();
 
@@ -143,7 +159,20 @@ namespace HWCAL
         /// <param name="e"></param>
         private void InfoToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            MessageBox.Show(string.Format("© Powertrace SRL\nVersion {0}.{1}.{2}", MajorVersion, MinorVersion, PatchVersion), "Hw Calibration Updater", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(string.Format("POWERTRACE\nHWCAL Generator for 2M\nPredev\nVersion {0}.{1}.{2}", MajorVersion, MinorVersion, PatchVersion), "Hw Calibration Updater", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        /// <summary>
+        /// Event handler of the "Help" option of the ToolStripMenu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(string.Format("1. Click on 'Load Srec File' and select the .srec/.s19/.sx file containing the hardware calibrations.\n\n" +
+                                          "2. Update Gain and Offset for the desired channels, values MUST be in hexadecimal format.\n\n" +
+                                          "3. Click on 'Write Updated File'. ​A new file having the _Updated suffix will be saved in the same folder as the original file and can be flashed on the ECU.\n\n" +
+                                          "Version 1.0.0 Initial version\nVersion 1.0.1 Resolved handling of .s19 and .sx extensions"), "Hw Calibration Updater", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         /// <summary>
@@ -155,7 +184,7 @@ namespace HWCAL
         {
             dgvHWCAL.CurrentCell.Style.BackColor = Color.White;
             menuStrip1.Items[1].Enabled = true;
-            dgvHWCAL.CurrentCell.Style.BackColor = Color.LightYellow;
+            dgvHWCAL.CurrentCell.Style.BackColor = Color.LightGoldenrodYellow;
 
             if (dgvHWCAL[e.ColumnIndex, e.RowIndex].Value != null)
             {
@@ -182,7 +211,7 @@ namespace HWCAL
         public bool OnlyHexInString(string test)
         {
             return System.Text.RegularExpressions.Regex.IsMatch(test, @"\A\b[0-9a-fA-F]+\b\Z");
-        }
+        }  
     }
 }
         

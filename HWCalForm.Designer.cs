@@ -32,15 +32,16 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.OpenSrecFile = new System.Windows.Forms.OpenFileDialog();
             this.dgvHWCAL = new System.Windows.Forms.DataGridView();
+            this.Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Gain = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Offset = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Signal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.saveFileDialogHWCAL = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.loadSrecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.writeChangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Signal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Offset = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Gain = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHWCAL)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -83,11 +84,34 @@
             this.dgvHWCAL.TabIndex = 1;
             this.dgvHWCAL.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHWCAL_CellEndEdit);
             // 
+            // Position
+            // 
+            this.Position.FillWeight = 50F;
+            this.Position.HeaderText = "Index";
+            this.Position.Name = "Position";
+            this.Position.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // Gain
+            // 
+            this.Gain.HeaderText = "Gain [Hex]";
+            this.Gain.Name = "Gain";
+            // 
+            // Offset
+            // 
+            this.Offset.HeaderText = "Offset [Hex]";
+            this.Offset.Name = "Offset";
+            // 
+            // Signal
+            // 
+            this.Signal.HeaderText = "Signal name";
+            this.Signal.Name = "Signal";
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadSrecToolStripMenuItem,
             this.writeChangesToolStripMenuItem,
+            this.helpToolStripMenuItem,
             this.infoToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -116,27 +140,12 @@
             this.infoToolStripMenuItem.Text = "Info";
             this.infoToolStripMenuItem.Click += new System.EventHandler(this.InfoToolStripMenuItem_Click);
             // 
-            // Signal
+            // helpToolStripMenuItem
             // 
-            this.Signal.HeaderText = "Signal name";
-            this.Signal.Name = "Signal";
-            // 
-            // Offset
-            // 
-            this.Offset.HeaderText = "Offset [Hex]";
-            this.Offset.Name = "Offset";
-            // 
-            // Gain
-            // 
-            this.Gain.HeaderText = "Gain [Hex]";
-            this.Gain.Name = "Gain";
-            // 
-            // Position
-            // 
-            this.Position.FillWeight = 50F;
-            this.Position.HeaderText = "Index";
-            this.Position.Name = "Position";
-            this.Position.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
             // HWCalForm
             // 
@@ -169,6 +178,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Gain;
         private System.Windows.Forms.DataGridViewTextBoxColumn Offset;
         private System.Windows.Forms.DataGridViewTextBoxColumn Signal;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
     }
 }
 
