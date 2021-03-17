@@ -1,4 +1,4 @@
-# SREC FILE UPDATER
+# srec-file-updater
 
 This is an app that displays the SREC data from the file so that the user can edit and save the updated SREC file.
 
