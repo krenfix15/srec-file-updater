@@ -6,8 +6,7 @@ This is an app that displays the SREC data from the file so that the user can ed
 1. Download the project.
 2. Open the solution "SREC_Updater.sln" in Visual Studio
 3. Compile it.
-
-To see how it works, open the "test.srec" file attached.
+4. To see how it works, open the "test.srec" file attached.
 
 # What I Learned
 
